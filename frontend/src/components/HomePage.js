@@ -1,0 +1,162 @@
+import React, { Component } from "react";
+import { withRouter } from "./withRouter";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Redirect,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
+import PracticeMode from "./PracticeMode";
+import ExamMode from "./ExamMode";
+import LoginPage from "./LoginPage";
+import {
+  Button,
+  Grid,
+  Typography,
+  TextField,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  colors,
+  Box,
+  Container,
+  AppBar,
+  Toolbar,
+} from "@mui/material";
+import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
+import { alignProperty } from "@mui/material/styles/cssUtils";
+class HomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      practice: true,
+      exam: false,
+      questions: 10,
+    };
+    this.handleQuestions = this.handleQuestions.bind(this);
+    this.handleMode = this.handleMode.bind(this);
+    this.handalGo = this.handalGo.bind(this);
+    this.changePage = this.changePage.bind(this);
+    this.handalLog = this.handalLog.bind(this);
+  }
+  render() {
+    return (
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Container maxWidth="lg"  >
+              <AppBar position="relative" color="transparent">
+                <Toolbar>
+                  <Button variant="outlined" color="primary" style={{ marginRight: "55px" }} onClick={this.handalLog}>
+                    Sign-In/Sign-up
+                  </Button>
+                  <Button variant="outlined" disabled color="inherit" style={{ marginRight: "55px" }}>
+                    Profile
+                  </Button>
+                  <Button variant="outlined" color="primary">
+                    FAQ
+                  </Button>
+                </Toolbar>
+              </AppBar>
+              <Grid
+                direction={"column"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Typography component="h1" variant="h1">
+                  SlangSpeak
+                </Typography>
+                <Typography component="h3" variant="h3">
+                  Language Learning
+                </Typography>
+                <RadioGroup
+                  name="use-radio-group"
+                  defaultValue="practice"
+                  onChange={this.handleMode}
+                >
+                  <FormControlLabel
+                    value="practice"
+                    label="Practice"
+                    control={<Radio />}
+                  />
+                  <FormControlLabel
+                    value="exam"
+                    label="Exam"
+                    control={<Radio />}
+                  />
+                </RadioGroup>
+                <TextField
+                  required={true}
+                  defaultValue={10}
+                  helperText={"Choose Question Amount"}
+                  onChange={this.handleQuestions}
+                ></TextField>
+                <Button
+                  size="large"
+                  color="primary"
+                  variant="contained"
+                  onClick={this.handalGo}
+                >
+                  Go
+                </Button>
+              </Grid>
+             </Container>
+          }
+        ></Route>
+
+        <Route path="/practice" element={<PracticeMode />} />
+        <Route path="/exam" element={<ExamMode />} />
+        <Route path="/login" element ={<LoginPage/>} />
+      </Routes>
+    );
+  }
+  changePage() {
+    console.log("in change page" + this.state.exam);
+    if (this.state.exam == true) {
+      console.log("goin to exam");
+      this.props.navigate("/exam");
+    } else {
+      console.log("goin to Practice");
+      this.props.navigate("/practice");
+    }
+  }
+  handleQuestions(e) {
+    this.setState({ questions: parseInt(e.target.value) });
+  }
+
+  handleMode(e) {
+    if (e.target.value == "exam") {
+      this.setState({ exam: true, practice: false });
+    } else {
+      this.setState({ exam: false, practice: true });
+    }
+    console.log(e.target.value);
+  }
+  handalGo(e) {
+    const { questions, exam, practice } = this.state;
+    const roomData = {
+      username: "Guest",
+      practiceMode: practice,
+      examMode: exam,
+      questions: questions,
+    };
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(roomData),
+    };
+
+    fetch("/api/room", requestOptions)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+    this.changePage();
+  }
+  handalLog(e){
+    this.props.navigate("/login")
+  }
+};
+export default withRouter(HomePage);
