@@ -1,5 +1,5 @@
 # Slang Speak
-Created by Kyan Coochie smear
+Created by Kyan Kotschevar-Smead
 
 What it is
 
