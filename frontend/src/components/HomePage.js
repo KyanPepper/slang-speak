@@ -35,6 +35,7 @@ class HomePage extends Component {
       practice: true,
       exam: false,
       questions: 10,
+      UserSigned: true
     };
     this.handleQuestions = this.handleQuestions.bind(this);
     this.handleMode = this.handleMode.bind(this);
@@ -54,7 +55,7 @@ class HomePage extends Component {
                   <Button variant="outlined" color="primary" style={{ marginRight: "55px" }} onClick={this.handalLog}>
                     Sign-In/Sign-up
                   </Button>
-                  <Button variant="outlined" disabled color="inherit" style={{ marginRight: "55px" }}>
+                  <Button variant="outlined" disabled={this.state.UserSigned} color="inherit" style={{ marginRight: "55px" }}>
                     Profile
                   </Button>
                   <Button variant="outlined" color="primary">
@@ -83,7 +84,7 @@ class HomePage extends Component {
                     label="Practice"
                     control={<Radio />}
                   />
-                  <FormControlLabel
+                  <FormControlLabel disabled={this.state.UserSigned}
                     value="exam"
                     label="Exam"
                     control={<Radio />}
