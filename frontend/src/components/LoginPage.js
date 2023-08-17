@@ -25,6 +25,10 @@ import {
   AppBar,
   Toolbar,
   Radio,
+  Dialog,
+  DialogContentText,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
 import axios, { Axios } from "axios";
 
@@ -37,6 +41,8 @@ export default class LoginPage extends Component {
       passLog: "",
       passCreate: "",
       emailCreate: "",
+      SignDiaglog: false,
+      UpDialog : false,
     };
     this.HandlepassCreate = this.HandlepassCreate.bind(this);
     this.HandlepassLog = this.HandlepassLog.bind(this);
@@ -45,6 +51,8 @@ export default class LoginPage extends Component {
     this.HandleemailCreate = this.HandleemailCreate.bind(this);
     this.HandlesubmitLog = this.HandlesubmitLog.bind(this);
     this.HandlesubmitCreate = this.HandlesubmitCreate.bind(this);
+    this.HandleCloseDialog = this.HandleCloseDialog.bind(this);
+    this.HandleCloseUpDia = this.HandleCloseUpDia.bind(this);
   }
   render() {
     return (
@@ -68,7 +76,9 @@ export default class LoginPage extends Component {
             onChange={this.HandlepassLog}
           ></TextField>
 
-          <Button size="large" onClick={this.HandlesubmitLog}>Go</Button>
+          <Button size="large" onClick={this.HandlesubmitLog}>
+            Go
+          </Button>
         </Box>
 
         <Box>
@@ -97,7 +107,21 @@ export default class LoginPage extends Component {
             value={this.state.passCreate}
             onChange={this.HandlepassCreate}
           ></TextField>
-          <Button size="large" onClick={this.HandlesubmitCreate}>Go</Button>
+          <Button size="large" onClick={this.HandlesubmitCreate}>
+            Go
+          </Button>
+          <Dialog open={this.state.SignDiaglog} onClose={this.HandleCloseDialog}>
+            <DialogTitle>User Sign in Error</DialogTitle>
+            <DialogContentText>
+              Check Password or Username for correct authentication
+            </DialogContentText>
+          </Dialog>
+          <Dialog open={this.state.UpDialog} onClose={this.HandleCloseUpDia}>
+            <DialogTitle>User Sign Up Error</DialogTitle>
+            <DialogContentText>
+              Email or Username Already Exits
+            </DialogContentText>
+          </Dialog>
         </Box>
       </Container>
     );
@@ -117,22 +141,47 @@ export default class LoginPage extends Component {
   HandleemailCreate(e) {
     this.setState({ emailCreate: e.target.value });
   }
+  HandleCloseDialog(e){
+    this.setState({SignDiaglog: false})
+  }
+  HandleCloseUpDia(e){
+    this.setState({UpDialog : false})
+  }
   HandlesubmitLog(e) {
     console.log(this.state.userLog + " space " + this.state.passLog);
     const loginData = {
-        username: this.state.userLog,
-        password: this.state.passLog
-    }
+      username: this.state.userLog,
+      password: this.state.passLog,
+    };
+    axios
+      .post("/api/login", loginData)
+      .then((Response) => {
+        console.log("Signed in");
+      })
+      .catch((error) => {
+        this.setState({SignDiaglog : true})
+      });
   }
-  HandlesubmitCreate(e){
-    console.log(this.state.emailCreate + " " + this.state.passCreate +  " " + this.state.userCreate)
+  HandlesubmitCreate(e) {
+    console.log(
+      this.state.emailCreate +
+        " " +
+        this.state.passCreate +
+        " " +
+        this.state.userCreate
+    );
     const createData = {
-        username: this.state.userCreate,
-        password: this.state.passCreate,
-        email: this.state.emailCreate
-    }
-    axios.post("/api/signup",createData).then(function(Response){
-        console.log("worm created")
-    })
+      username: this.state.userCreate,
+      password: this.state.passCreate,
+      email: this.state.emailCreate,
+    };
+    axios
+      .post("/api/signup", createData)
+      .then( (Response) =>{
+        console.log("account created");
+      })
+      .catch( (error) => {
+        this.setState({UpDialog : true})
+      });
   }
 }
