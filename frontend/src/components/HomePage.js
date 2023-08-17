@@ -42,6 +42,7 @@ class HomePage extends Component {
     this.handalGo = this.handalGo.bind(this);
     this.changePage = this.changePage.bind(this);
     this.handalLog = this.handalLog.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
   render() {
     return (
@@ -90,11 +91,18 @@ class HomePage extends Component {
                     control={<Radio />}
                   />
                 </RadioGroup>
+                
                 <TextField
                   required={true}
-                  defaultValue={10}
-                  helperText={"Choose Question Amount"}
+                  onBlur={this.handleBlur}
+                  value={this.state.questions}
+                  helperText={"Choose Question Amount 1-50"}
                   onChange={this.handleQuestions}
+                  type="number"
+                  inputProps={{
+                    min: 1,  
+                    max: 50, 
+                  }}
                 ></TextField>
                 <Button
                   size="large"
@@ -127,6 +135,13 @@ class HomePage extends Component {
   }
   handleQuestions(e) {
     this.setState({ questions: parseInt(e.target.value) });
+  }
+  handleBlur(e){
+    if (parseInt(e.target.value) < 1){
+      this.setState({questions:1})
+    }else if(parseInt(e.target.value) > 50){
+      this.setState({questions:50})
+    }
   }
 
   handleMode(e) {
