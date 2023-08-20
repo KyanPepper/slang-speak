@@ -148,6 +148,7 @@ export default class LoginPage extends Component {
     this.setState({UpDialog : false})
   }
   HandlesubmitLog(e) {
+    e.preventDefault();
     console.log(this.state.userLog + " space " + this.state.passLog);
     const loginData = {
       username: this.state.userLog,
@@ -156,6 +157,8 @@ export default class LoginPage extends Component {
     axios
       .post("/api/login", loginData)
       .then((Response) => {
+        const token = Response.data.token;
+        localStorage.setItem('authToken', token);
         console.log("Signed in");
       })
       .catch((error) => {
@@ -163,6 +166,7 @@ export default class LoginPage extends Component {
       });
   }
   HandlesubmitCreate(e) {
+    e.preventDefault();
     console.log(
       this.state.emailCreate +
         " " +

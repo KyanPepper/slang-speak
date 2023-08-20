@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.models import Avg
-
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here.
 
@@ -36,7 +36,9 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return Response({'message': 'Login successful!'}, status=status.HTTP_200_OK)
+            refresh = RefreshToken.for_user(user)
+            token = str(refresh.access_token)
+            return Response({'token': token},status=status.HTTP_200_OK) 
         else:
             return Response({'message': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
 
