@@ -29,10 +29,11 @@ import {
   DialogContentText,
   DialogTitle,
   DialogActions,
+  shouldSkipGeneratingVar,
 } from "@mui/material";
 import axios, { Axios } from "axios";
 
-export default class LoginPage extends Component {
+ class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -160,6 +161,7 @@ export default class LoginPage extends Component {
         const token = Response.data.token;
         localStorage.setItem('authToken', token);
         console.log("Signed in");
+        this.props.navigate('/')
       })
       .catch((error) => {
         this.setState({SignDiaglog : true})
@@ -189,3 +191,5 @@ export default class LoginPage extends Component {
       });
   }
 }
+export default withRouter(LoginPage);
+
