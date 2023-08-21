@@ -66,3 +66,10 @@ class AverageScoreView(APIView):
         user_scores = Score.objects.filter(user=request.user)
         average = user_scores.aggregate(Avg('score'))['score__avg']
         return Response({'average_score': average})
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        logout(request)
+        return Response({'message': 'Logged out successfully.'}, status=status.HTTP_200_OK)
