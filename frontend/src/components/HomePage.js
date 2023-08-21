@@ -65,7 +65,7 @@ class HomePage extends Component {
                   <Button variant="outlined" color="primary" style={{ marginRight: "55px" }} onClick={this.handalLog}>
                     Sign-In/Sign-up
                   </Button>
-                  <Button variant="outlined" disabled={this.state.UserSigned} color="inherit" style={{ marginRight: "55px" }}>
+                  <Button variant="outlined" disabled={this.state.UserSigned} color="primary" style={{ marginRight: "55px" }}>
                     Profile
                   </Button>
                   <Button variant="outlined" color="primary">
