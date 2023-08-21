@@ -28,7 +28,7 @@ import {
 } from "@mui/material";
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
 import { alignProperty } from "@mui/material/styles/cssUtils";
-class LoginPage extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,4 +47,4 @@ class LoginPage extends Component {
   }
 }
 
-export default withRouter(LoginPage);
+export default withRouter(Profile);

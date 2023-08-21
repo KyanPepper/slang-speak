@@ -12,6 +12,7 @@ import {
 import PracticeMode from "./PracticeMode";
 import ExamMode from "./ExamMode";
 import LoginPage from "./LoginPage";
+import Profile from "./Profile";
 import {
   Button,
   Grid,
@@ -130,6 +131,7 @@ class HomePage extends Component {
         <Route path="/practice" element={<PracticeMode />} />
         <Route path="/exam" element={<ExamMode />} />
         <Route path="/login" element ={<LoginPage/>} />
+        <Route path = "/profile" element={<Profile></Profile>}/>
       </Routes>
     );
   }

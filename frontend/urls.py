@@ -4,6 +4,6 @@ urlpatterns = [
     path('',index),
     path('exam',index),
     path('practice',index),
-    path('login',index)
-
+    path('login',index),
+    path('profile',index)
 ]
