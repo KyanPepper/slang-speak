@@ -50,6 +50,7 @@ class HomePage extends Component {
     const token = localStorage.getItem('authToken');
     if (token === null) {
       this.setState({ UserSigned: false });
+      console.log("user signed in")
     }
   }
   
