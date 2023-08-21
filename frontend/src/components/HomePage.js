@@ -37,6 +37,8 @@ class HomePage extends Component {
       questions: 10,
       UserSigned: true
     };
+   
+
     this.handleQuestions = this.handleQuestions.bind(this);
     this.handleMode = this.handleMode.bind(this);
     this.handalGo = this.handalGo.bind(this);
@@ -44,6 +46,13 @@ class HomePage extends Component {
     this.handalLog = this.handalLog.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
   }
+  componentDidMount() {
+    const token = localStorage.getItem('authToken');
+    if (token === null) {
+      this.setState({ UserSigned: false });
+    }
+  }
+  
   render() {
     return (
       <Routes>
