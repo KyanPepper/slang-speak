@@ -131,7 +131,7 @@ class HomePage extends Component {
         <Route path="/practice" element={<PracticeMode />} />
         <Route path="/exam" element={<ExamMode />} />
         <Route path="/login" element ={<LoginPage/>} />
-        <Route path = "/profile" element={<Profile></Profile>}/>
+        <Route path = "/profile" element={<Profile/>}/>
       </Routes>
     );
   }

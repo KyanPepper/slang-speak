@@ -9,9 +9,6 @@ import {
   Navigate,
   useNavigate,
 } from "react-router-dom";
-import PracticeMode from "./PracticeMode";
-import ExamMode from "./ExamMode";
-import LoginPage from "./LoginPage";
 import {
   Button,
   Grid,
@@ -26,25 +23,23 @@ import {
   AppBar,
   Toolbar,
 } from "@mui/material";
-import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
-import { alignProperty } from "@mui/material/styles/cssUtils";
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      practice: true,
-      exam: false,
-      questions: 10,
-      UserSigned: true,
-    };
+        User : ""
+    }
   }
-  render() {
+  render(){
     return (
-      <Container>
-        <Button color="warning">Log Out</Button>
+      <Container maxWidth="lg">
+        <Typography>
+            Signed in
+        </Typography>
+        <Button color="primary" size="large">Log Out</Button>
       </Container>
-    );
+    )
   }
-}
 
+}
 export default withRouter(Profile);
