@@ -55,6 +55,9 @@ class HomePage extends Component {
       console.log("user signed in" + token)
     }
   }
+  componentDidUpdate(){
+    console.log("Compoent Updated")
+  }
   
   render() {
     return (
