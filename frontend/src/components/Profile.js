@@ -35,16 +35,16 @@ class LoginPage extends Component {
       practice: true,
       exam: false,
       questions: 10,
-      UserSigned: true
+      UserSigned: true,
     };
   }
-  render(){
-    return(
-        <container></container>
+  render() {
+    return (
+      <Container>
+        <Button color="warning">Log Out</Button>
+      </Container>
     );
-
-    
   }
 }
 
-    export default withRouter(LoginPage)
+export default withRouter(LoginPage);
