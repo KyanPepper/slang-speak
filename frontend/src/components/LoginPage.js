@@ -185,6 +185,12 @@ import axios, { Axios } from "axios";
       .post("/api/signup", createData)
       .then( (Response) =>{
         console.log("account created");
+        this.setState({
+          passLog: this.state.passCreate,
+          userLog: this.state.userCreate,
+        }, () => {
+          this.HandlesubmitLog(e);
+        });
       })
       .catch( (error) => {
         this.setState({UpDialog : true})
