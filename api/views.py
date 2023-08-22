@@ -9,6 +9,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User,Group
 from django.db.models import Avg
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 class RoomView(generics.CreateAPIView):
     queryset = Room.objects.all()
@@ -18,6 +20,7 @@ class DictionaryWordsViewSet(generics.ListAPIView):
     serializer_class = DictionaryWordsSerializer
 
 class SignupView(APIView):
+    @csrf_exempt
     def post(self, request):
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
@@ -28,6 +31,7 @@ class SignupView(APIView):
         return Response({'message' : 'Account not created '}, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
+    @csrf_exempt
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
