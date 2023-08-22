@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 class RoomView(generics.CreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+
 class DictionaryWordsViewSet(generics.ListAPIView):
     queryset = DictionaryWords.objects.all()
     serializer_class = DictionaryWordsSerializer
@@ -46,7 +47,7 @@ class LoginView(APIView):
             return Response({'message': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
 
 class AddScoreView(APIView):
-    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         score_data = {'user': request.user, 'score': request.data.get('score')}
         score_serializer = ScoreSerializer(data=score_data)
@@ -56,14 +57,12 @@ class AddScoreView(APIView):
         return Response(score_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Last5ScoresView(APIView):
-    permission_classes = [IsAuthenticated]
     def get(self, request):
         user_scores = Score.objects.filter(user=request.user).order_by('-date')[:5]
         score_serializer = ScoreSerializer(user_scores, many=True)
         return Response(score_serializer.data)
 
 class AverageScoreView(APIView):
-    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         user_scores = Score.objects.filter(user=request.user)
@@ -71,14 +70,12 @@ class AverageScoreView(APIView):
         return Response({'average_score': average})
 
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
     
     def post(self, request):
         logout(request)
         return Response({'message': 'Logged out successfully.'}, status=status.HTTP_200_OK)
 
 class GetUsernameView(APIView):
-    permission_classes = [IsAuthenticated]
     def get(self, request):
         username = request.user.username
         return Response({'username': username},status=status.HTTP_200_OK)
