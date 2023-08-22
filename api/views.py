@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 from django.db.models import Avg
 from rest_framework_simplejwt.tokens import RefreshToken
 # Create your views here.
@@ -21,8 +21,10 @@ class SignupView(APIView):
     def post(self, request):
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
-            user_serializer.save()
-            return Response({'message' : 'Account Created '}, status=status.HTTP_201_CREATED)
+          user = user_serializer.save()
+          reg_group = Group.objects.get(name='RegGroup')
+          reg_group.user_set.add(user)
+          return Response({'message' : 'Account Created '}, status=status.HTTP_201_CREATED)
         return Response({'message' : 'Account not created '}, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
