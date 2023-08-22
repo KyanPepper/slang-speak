@@ -25,9 +25,10 @@ class RoomView(generics.CreateAPIView):
 class DictionaryWordsViewSet(generics.ListAPIView):
     queryset = DictionaryWords.objects.all()
     serializer_class = DictionaryWordsSerializer
+    authentication_classes = [CsrfExemptSessionAuthentication, BasicAuthentication]
 
 class SignupView(APIView):
-    
+    authentication_classes = [CsrfExemptSessionAuthentication, BasicAuthentication]
     def post(self, request):
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
@@ -38,7 +39,7 @@ class SignupView(APIView):
         return Response({'message' : 'Account not created '}, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
-    @csrf_exempt
+    authentication_classes = [CsrfExemptSessionAuthentication, BasicAuthentication]
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -53,7 +54,7 @@ class LoginView(APIView):
             return Response({'message': 'Invalid credentials.'}, status=status.HTTP_401_UNAUTHORIZED)
 
 class AddScoreView(APIView):
-
+    authentication_classes = [CsrfExemptSessionAuthentication, BasicAuthentication]
     def post(self, request):
         score_data = {'user': request.user, 'score': request.data.get('score')}
         score_serializer = ScoreSerializer(data=score_data)
@@ -76,7 +77,7 @@ class AverageScoreView(APIView):
         return Response({'average_score': average})
 
 class LogoutView(APIView):
-    @csrf_exempt
+    authentication_classes = [CsrfExemptSessionAuthentication, BasicAuthentication]
     def post(self, request):
         logout(request)
         return Response({'message': 'Logged out successfully.'}, status=status.HTTP_200_OK)
