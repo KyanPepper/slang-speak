@@ -10,18 +10,24 @@ from django.contrib.auth.models import User,Group
 from django.db.models import Avg
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authentication import SessionAuthentication,BasicAuthentication
 
-# Create your views here.
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+    def enforce_csrf(self, request):
+        return  # Disable CSRF check
+
 class RoomView(generics.CreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
+
 
 class DictionaryWordsViewSet(generics.ListAPIView):
     queryset = DictionaryWords.objects.all()
     serializer_class = DictionaryWordsSerializer
 
 class SignupView(APIView):
-    @csrf_exempt
+    
     def post(self, request):
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
@@ -70,7 +76,7 @@ class AverageScoreView(APIView):
         return Response({'average_score': average})
 
 class LogoutView(APIView):
-    
+    @csrf_exempt
     def post(self, request):
         logout(request)
         return Response({'message': 'Logged out successfully.'}, status=status.HTTP_200_OK)
