@@ -9,13 +9,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.models import Avg
 from rest_framework_simplejwt.tokens import RefreshToken
-
 # Create your views here.
-
 class RoomView(generics.CreateAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
-
 class DictionaryWordsViewSet(generics.ListAPIView):
     queryset = DictionaryWords.objects.all()
     serializer_class = DictionaryWordsSerializer
@@ -73,7 +70,7 @@ class LogoutView(APIView):
     def post(self, request):
         logout(request)
         return Response({'message': 'Logged out successfully.'}, status=status.HTTP_200_OK)
-    
+
 class GetUsernameView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
