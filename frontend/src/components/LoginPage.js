@@ -162,6 +162,7 @@ import axios, { Axios } from "axios";
         localStorage.setItem('authToken', token);
         console.log("Signed in");
         this.props.navigate('/')
+        window.location.reload();
       })
       .catch((error) => {
         this.setState({SignDiaglog : true})

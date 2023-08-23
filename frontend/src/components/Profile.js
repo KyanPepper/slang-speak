@@ -47,6 +47,7 @@ class Profile extends Component {
       console.log("signed out")
       localStorage.removeItem('authToken')
       this.props.navigate('/')
+      window.location.reload();
     })
 
     
