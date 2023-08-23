@@ -46,6 +46,7 @@ class HomePage extends Component {
     this.changePage = this.changePage.bind(this);
     this.handalLog = this.handalLog.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
+    this.handleProfile = this.handleProfile.bind(this);
   }
   componentDidMount() {
     const token = localStorage.getItem('authToken');
@@ -71,7 +72,7 @@ class HomePage extends Component {
                   <Button variant="outlined" color="primary" style={{ marginRight: "55px" }} onClick={this.handalLog}>
                     Sign-In/Sign-up
                   </Button>
-                  <Button variant="outlined" disabled={this.state.UserSigned} color="primary" style={{ marginRight: "55px" }}>
+                  <Button variant="outlined" disabled={this.state.UserSigned} color="primary" style={{ marginRight: "55px" }} onClick={this.handleProfile}>
                     Profile
                   </Button>
                   <Button variant="outlined" color="primary">
@@ -189,6 +190,9 @@ class HomePage extends Component {
   }
   handalLog(e){
     this.props.navigate("/login")
+  }
+  handleProfile(e){
+    this.props.navigate("/profile")
   }
 };
 export default withRouter(HomePage);
