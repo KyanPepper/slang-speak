@@ -56,6 +56,9 @@ class HomePage extends Component {
       console.log("user signed in" + token)
     }
   }
+  componentWillUnmount(){
+    localStorage.removeItem('authToken')
+  }
   
   render() {
     return (
