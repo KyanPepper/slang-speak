@@ -1,3 +1,4 @@
+from random import shuffle
 from django.shortcuts import render
 from rest_framework import generics, status,viewsets
 from .serializers import RoomSerializer,PickMode,DictionaryWordsSerializer,UserSerializer,ScoreSerializer
@@ -33,6 +34,11 @@ class DictionaryWordsViewSet(generics.ListAPIView):
     queryset = DictionaryWords.objects.all()
     serializer_class = DictionaryWordsSerializer
     authentication_classes = [CsrfExemptSessionAuthentication, BasicAuthentication]
+    def get_queryset(self):
+                queryset = super().get_queryset()
+                shuffled_queryset = list(queryset)  # Convert queryset to a list
+                shuffle(shuffled_queryset)  # Shuffle the list in-place
+                return shuffled_queryset
 
 class SignupView(APIView):
     authentication_classes = [CsrfExemptSessionAuthentication, BasicAuthentication]
