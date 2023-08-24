@@ -32,7 +32,7 @@ componentDidMount(){
   .catch(error => {
     console.log("could not retrive dictionary words")
   });
-  axios.get("/api/room")
+  axios.get("/api/getRoom")
   .then(response => {
     this.setState({roomData: response.data}); 
     console.log(this.state.roomData)

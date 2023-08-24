@@ -21,10 +21,12 @@ class RoomView(generics.CreateAPIView):
     serializer_class = RoomSerializer
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
 
-class RoomGET(generics.ListAPIView):
+class RoomGET(generics.RetrieveAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
     authentication_classes = (CsrfExemptSessionAuthentication,BasicAuthentication)
+    def get_object(self):
+        return Room.objects.all().order_by('-id').first()
 
 
 class DictionaryWordsViewSet(generics.ListAPIView):
