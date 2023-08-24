@@ -20,6 +20,7 @@ export default class PracticeMode extends Component {
     this.state = {
       questionList:[],
       roomData: [],
+      currentQuestion: 1,
     };
   }
 
@@ -41,8 +42,6 @@ componentDidMount(){
     console.log("could not retrive question amount")
   });
 
-
-
 }
   render() {
     return (
@@ -61,7 +60,7 @@ componentDidMount(){
           align="center"
           sx={{ color: Slangtheme.palette.text.secondary }}
         >
-          Questions: 1 of {numOfQuestions}
+          Questions: {this.state.currentQuestion} of {this.state.roomData.questions}
         </Typography>
         <Box textAlign={"center"} paddingBottom={4}>
           <Button
