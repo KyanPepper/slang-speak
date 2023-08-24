@@ -3,10 +3,11 @@ import React, { Component } from "react";
 import { ThemeProvider } from "@emotion/react";
 import Slangtheme from "./WebsiteTheme";
 import NextPlanIcon from "@mui/icons-material/NextPlan";
+import axios from "axios";
 
 const numOfQuestions = 10;
 document.body.style.backgroundColor = "#F5F5F5";
-const questionList = [
+const tempList = [
   { title: "A", description: "Description 1" },
   { title: "B", description: "Description 2" },
   { title: "C", description: "Description 3" },
@@ -16,8 +17,22 @@ const questionList = [
 export default class PracticeMode extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      questionList:[],
+    };
   }
 
+componentDidMount(){
+  axios.get("/api/DictionaryWords")
+  .then(response => {
+    this.setState({questionList: response.data}); // Update state with fetched data
+    console.log(this.state.questionList)
+  })
+  .catch(error => {
+    console.log("could not retrive dictionary words")
+  });
+  
+}
   render() {
     return (
       <Container maxWidth="lg" >
@@ -48,7 +63,7 @@ export default class PracticeMode extends Component {
           </Button>
         </Box>
         <Grid container spacing={8} color={"F5F5F5"}>
-          {questionList.map((item, index) => (
+          {tempList.map((item, index) => (
             <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
               <Box
                 sx={{
