@@ -112,7 +112,7 @@ class HomePage extends Component {
                   required={true}
                   onBlur={this.handleBlur}
                   value={this.state.questions}
-                  helperText={"Choose Question Amount 1-50"}
+                  helperText={"Choose Question Amount 10-25"}
                   onChange={this.handleQuestions}
                   type="number"
                   inputProps={{
@@ -154,10 +154,10 @@ class HomePage extends Component {
     this.setState({ questions: parseInt(e.target.value) });
   }
   handleBlur(e){
-    if (parseInt(e.target.value) < 1){
-      this.setState({questions:1})
-    }else if(parseInt(e.target.value) > 50){
-      this.setState({questions:50})
+    if (parseInt(e.target.value) < 10){
+      this.setState({questions:10})
+    }else if(parseInt(e.target.value) > 25){
+      this.setState({questions:25})
     }
   }
 
