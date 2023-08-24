@@ -19,19 +19,30 @@ export default class PracticeMode extends Component {
     super(props);
     this.state = {
       questionList:[],
+      roomData: [],
     };
   }
 
 componentDidMount(){
   axios.get("/api/DictionaryWords")
   .then(response => {
-    this.setState({questionList: response.data}); // Update state with fetched data
+    this.setState({questionList: response.data}); 
     console.log(this.state.questionList)
   })
   .catch(error => {
     console.log("could not retrive dictionary words")
   });
-  
+  axios.get("/api/room")
+  .then(response => {
+    this.setState({roomData: response.data}); 
+    console.log(this.state.roomData)
+  })
+  .catch(error => {
+    console.log("could not retrive question amount")
+  });
+
+
+
 }
   render() {
     return (
