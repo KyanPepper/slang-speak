@@ -21,6 +21,11 @@ class RoomView(generics.CreateAPIView):
     serializer_class = RoomSerializer
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
 
+class RoomGET(generics.ListAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+    authentication_classes = (CsrfExemptSessionAuthentication,BasicAuthentication)
+
 
 class DictionaryWordsViewSet(generics.ListAPIView):
     queryset = DictionaryWords.objects.all()

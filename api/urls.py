@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import path, include
-from .views import RoomView,DictionaryWordsViewSet,AddScoreView,Last5ScoresView,AverageScoreView,SignupView,LoginView, LogoutView,GetUsernameView
+from .views import RoomView,DictionaryWordsViewSet,AddScoreView,Last5ScoresView,AverageScoreView,SignupView,LoginView, LogoutView,GetUsernameView,RoomGET
 urlpatterns = [
     path('room',RoomView.as_view()),
     path('DictionaryWords',DictionaryWordsViewSet.as_view()),
@@ -10,5 +10,6 @@ urlpatterns = [
     path('signup', SignupView.as_view()),
     path('login', LoginView.as_view()),
     path('logout',LogoutView.as_view()),
-    path('getUser',LogoutView.as_view())
+    path('getUser',LogoutView.as_view()),
+    path('getRoom',RoomGET.as_view())
 ]
