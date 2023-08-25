@@ -21,6 +21,7 @@ export default class PracticeMode extends Component {
       questionList:[],
       roomData: [],
       currentQuestion: 1,
+      questionsCorrect : 1
     };
   }
 
@@ -86,18 +87,13 @@ componentDidMount(){
                   color: "black",
                   border: "3px solid #CCCCCC",
                   borderRadius: "8px",
-                  textAlign: "center",
                   backgroundColor: "white",
                 }}
               >
-                <Typography variant="h3" mt={2}>
-                  {item.title}
-                </Typography>
                 <Typography variant="body1" mt={2}>
                   {item.description}
                 </Typography>
               </Box>
-              <Button variant="contained">Select</Button>
             </Grid>
           ))}
         </Grid>
