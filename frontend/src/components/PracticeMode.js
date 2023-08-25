@@ -29,7 +29,6 @@ export default class PracticeMode extends Component {
       currentWord: null,
       usedDefinitions: [],
     };
-    this.generateQuestion = this.generateQuestion.bind(this)
   }
 
   componentDidMount() {
@@ -108,34 +107,5 @@ export default class PracticeMode extends Component {
         </Grid>
       </Container>
     );
-  }
-  generateQuestion() {
-    const { questionList, usedDefinitions } = this.state;
-    const availableDefinitions = questionList.filter(
-      (def) => !usedDefinitions.includes(def)
-    );
-
-    
-    const correctDefIndex = Math.floor(
-      Math.random() * availableDefinitions.length
-    );
-    const correctDef = availableDefinitions[correctDefIndex];
-
-   
-    const shuffledList = availableDefinitions.filter(
-      (def) => def !== correctDef
-    )
-
-    const shuffledOptions = this.shuffleArray(shuffledList).slice(0, 3);
-    const randomIndex = Math.floor(Math.random() * 4);
-    shuffledOptions.splice(randomIndex, 0, correctDef);
-    this.setState({
-      correctDef,
-      def1: shuffledOptions[0],
-      def2: shuffledOptions[1],
-      def3: shuffledOptions[2],
-      currentQuestion: this.state.currentQuestion + 1,
-      usedDefinitions: [...usedDefinitions, correctDef]
-    });
   }
 }
