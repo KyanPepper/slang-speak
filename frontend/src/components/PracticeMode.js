@@ -105,7 +105,4 @@ componentDidMount(){
       </Container>
     );
   }
-  handleDefSelect(e){
-    if
-  }
 }
