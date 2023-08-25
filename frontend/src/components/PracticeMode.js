@@ -18,40 +18,43 @@ export default class PracticeMode extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      questionList:[],
+      questionList: [],
       roomData: [],
       currentQuestion: 1,
-      questionsCorrect : 0,
-      correctDef : null,
-      def1 : null,
-      def2 : null,
-      def3 : null,
-      currentWord: null
+      questionsCorrect: 0,
+      correctDef: null,
+      def1: null,
+      def2: null,
+      def3: null,
+      currentWord: null,
+      usedDefinitions: [],
     };
+    this.generateQuestion = this.generateQuestion.bind(this)
   }
 
-componentDidMount(){
-  axios.get("/api/DictionaryWords")
-  .then(response => {
-    this.setState({questionList: response.data}); 
-    console.log(this.state.questionList)
-  })
-  .catch(error => {
-    console.log("could not retrive dictionary words")
-  });
-  axios.get("/api/getRoom")
-  .then(response => {
-    this.setState({roomData: response.data}); 
-    console.log(this.state.roomData)
-  })
-  .catch(error => {
-    console.log("could not retrive question amount")
-  });
-
-}
+  componentDidMount() {
+    axios
+      .get("/api/DictionaryWords")
+      .then((response) => {
+        this.setState({ questionList: response.data });
+        console.log(this.state.questionList);
+      })
+      .catch((error) => {
+        console.log("could not retrive dictionary words");
+      });
+    axios
+      .get("/api/getRoom")
+      .then((response) => {
+        this.setState({ roomData: response.data });
+        console.log(this.state.roomData);
+      })
+      .catch((error) => {
+        console.log("could not retrive question amount");
+      });
+  }
   render() {
     return (
-      <Container maxWidth="lg" >
+      <Container maxWidth="lg">
         <Typography
           variant="h1"
           sx={{
@@ -66,7 +69,8 @@ componentDidMount(){
           align="center"
           sx={{ color: Slangtheme.palette.text.secondary }}
         >
-          Questions: {this.state.currentQuestion} of {this.state.roomData.questions}
+          Questions: {this.state.currentQuestion} of{" "}
+          {this.state.roomData.questions}
         </Typography>
         <Box textAlign={"center"} paddingBottom={4}>
           <Button
@@ -104,5 +108,34 @@ componentDidMount(){
         </Grid>
       </Container>
     );
+  }
+  generateQuestion() {
+    const { questionList, usedDefinitions } = this.state;
+    const availableDefinitions = questionList.filter(
+      (def) => !usedDefinitions.includes(def)
+    );
+
+    
+    const correctDefIndex = Math.floor(
+      Math.random() * availableDefinitions.length
+    );
+    const correctDef = availableDefinitions[correctDefIndex];
+
+   
+    const shuffledList = availableDefinitions.filter(
+      (def) => def !== correctDef
+    )
+
+    const shuffledOptions = this.shuffleArray(shuffledList).slice(0, 3);
+    const randomIndex = Math.floor(Math.random() * 4);
+    shuffledOptions.splice(randomIndex, 0, correctDef);
+    this.setState({
+      correctDef,
+      def1: shuffledOptions[0],
+      def2: shuffledOptions[1],
+      def3: shuffledOptions[2],
+      currentQuestion: this.state.currentQuestion + 1,
+      usedDefinitions: [...usedDefinitions, correctDef]
+    });
   }
 }
