@@ -21,7 +21,12 @@ export default class PracticeMode extends Component {
       questionList:[],
       roomData: [],
       currentQuestion: 1,
-      questionsCorrect : 1
+      questionsCorrect : 0,
+      correctDef : null,
+      def1 : null,
+      def2 : null,
+      def3 : null,
+      currentWord: null
     };
   }
 
@@ -99,5 +104,8 @@ componentDidMount(){
         </Grid>
       </Container>
     );
+  }
+  handleDefSelect(e){
+    if
   }
 }
