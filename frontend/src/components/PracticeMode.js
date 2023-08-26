@@ -4,13 +4,7 @@ import { ThemeProvider } from "@emotion/react";
 import Slangtheme from "./WebsiteTheme";
 import NextPlanIcon from "@mui/icons-material/NextPlan";
 import axios from "axios";
-const tempList = [
-  { title: "A", description: "Description 1" },
-  { title: "B", description: "Description 2" },
-  { title: "C", description: "Description 3" },
-  { title: "D", description: "Description 4" },
-];
-const numOfQuestions = 10;
+
 document.body.style.backgroundColor = "#F5F5F5";
 export default class PracticeMode extends Component {
   constructor(props) {
