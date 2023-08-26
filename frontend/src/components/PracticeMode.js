@@ -28,6 +28,7 @@ export default class PracticeMode extends Component {
       usedDefinitions: [],
     };
     this.shuffleArray = this.shuffleArray.bind(this)
+    this.pickThreeDef = this.pickThreeDef.bind(this)
   }
 
   componentDidMount() {
@@ -121,4 +122,15 @@ export default class PracticeMode extends Component {
     }
     return shuffledArray;
   };
+  pickThreeDef(array, excludeIndex, count){
+    const indices = [];
+    while (indices.length < count) {
+      const randomIndex = Math.floor(Math.random() * array.length); 
+      if (randomIndex !== excludeIndex && !indices.includes(randomIndex)) {
+        indices.push(randomIndex);
+      }
+    }
+    return indices;
+  }
+  
 }
