@@ -117,7 +117,12 @@ export default class PracticeMode extends Component {
                   border: "3px solid #CCCCCC",
                   borderRadius: "8px",
                   backgroundColor: "white",
+                  cursor: "pointer", 
+                  "&:hover": {
+                    backgroundColor: "#EEEEEE", 
+                  }
                 }}
+                onClick={() => this.handleChoice(item.word)}
               >
                 <Typography
                   variant="body1"
@@ -160,30 +165,37 @@ export default class PracticeMode extends Component {
   }
   handleChoice(e) {
     if (e === this.state.currentTerm.word) {
-      this.setState({
-        questionsCorrect: questionsCorrect + 1,
-      });
+      this.setState((prevState) => ({
+        questionsCorrect: prevState.questionsCorrect + 1,
+      }));
     }
-    this.setState({
-      currentQuestion: currentQuestion + 1,
-    });
-    if(this.state.currentQuestion > this.state.roomData.questions){
-      console.log("over")
+  
+    this.setState((prevState) => ({
+      currentQuestion: prevState.currentQuestion + 1,
+      currentTerm: prevState.questionList[prevState.currentQuestion + 1],
+    }));
+  
+    if (this.state.currentQuestion >= this.state.roomData.questions) {
+      console.log("over");
+      console.log("score" + this.state.questionsCorrect)
+      return "";
     }
+  
     let temparr = this.pickThreeDef(
       this.state.questionList,
       this.state.currentQuestion,
       3
     );
+  
     let finalArr = [
       this.state.questionList[temparr[0]],
       this.state.questionList[temparr[1]],
       this.state.questionList[temparr[2]],
-      this.state.currentTerm,
+      this.state.questionList[this.state.currentQuestion + 1],
     ];
+    
     finalArr = this.shuffleArray(finalArr);
-    console.log(finalArr);
     this.setState({ mixedArr: finalArr });
-    console.log(this.state.mixedArr);
   }
+  
 }
