@@ -1,4 +1,14 @@
-import { Box, Container, Typography, Paper, Grid, Button } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  Paper,
+  Grid,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContentText,
+} from "@mui/material";
 import React, { Component } from "react";
 import { ThemeProvider } from "@emotion/react";
 import Slangtheme from "./WebsiteTheme";
@@ -17,10 +27,12 @@ export default class PracticeMode extends Component {
       mixedArr: [],
       currentTerm: [],
       usedDefinitions: [],
+      dia: false,
     };
     this.shuffleArray = this.shuffleArray.bind(this);
     this.pickThreeDef = this.pickThreeDef.bind(this);
     this.handleChoice = this.handleChoice.bind(this);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
   }
 
   componentDidMount() {
@@ -118,10 +130,10 @@ export default class PracticeMode extends Component {
                   border: "3px solid #CCCCCC",
                   borderRadius: "8px",
                   backgroundColor: "white",
-                  cursor: "pointer", 
+                  cursor: "pointer",
                   "&:hover": {
-                    backgroundColor: "#EEEEEE", 
-                  }
+                    backgroundColor: "#EEEEEE",
+                  },
                 }}
                 onClick={() => this.handleChoice(item.word)}
               >
@@ -139,6 +151,24 @@ export default class PracticeMode extends Component {
               </Box>
             </Grid>
           ))}
+          <Dialog open={this.state.dia} onClose={this.handleDialogClose}>
+            <DialogTitle variant="h2" fontFamily={"monospace"}>
+              Practice Score
+            </DialogTitle>
+            <DialogContentText variant="h3" fontFamily={"monospace"}>
+              Score: {this.state.questionsCorrect + 1} /{" "}
+              {this.state.currentQuestion - 1}
+            </DialogContentText>
+            <DialogContentText variant="h3" fontFamily={"monospace"}>
+              Unsubmitted Score :{" "}
+              {Math.round(
+                ((this.state.questionsCorrect + 1) /
+                  (this.state.currentQuestion - 1)) *
+                  100
+              )}
+              %
+            </DialogContentText>
+          </Dialog>
         </Grid>
       </Container>
     );
@@ -170,33 +200,36 @@ export default class PracticeMode extends Component {
         questionsCorrect: prevState.questionsCorrect + 1,
       }));
     }
-  
+
     this.setState((prevState) => ({
       currentQuestion: prevState.currentQuestion + 1,
       currentTerm: prevState.questionList[prevState.currentQuestion + 1],
     }));
-  
+
     if (this.state.currentQuestion >= this.state.roomData.questions) {
       console.log("over");
-      console.log("score" + (this.state.questionsCorrect+1))
+      console.log("score" + (this.state.questionsCorrect + 1));
+      this.setState({ dia: true });
       return "";
     }
-  
+
     let temparr = this.pickThreeDef(
       this.state.questionList,
       this.state.currentQuestion,
       3
     );
-  
+
     let finalArr = [
       this.state.questionList[temparr[0]],
       this.state.questionList[temparr[1]],
       this.state.questionList[temparr[2]],
       this.state.questionList[this.state.currentQuestion + 1],
     ];
-    
+
     finalArr = this.shuffleArray(finalArr);
     this.setState({ mixedArr: finalArr });
   }
-  
+  handleDialogClose(e) {
+    this.setState({ dia: false });
+  }
 }
