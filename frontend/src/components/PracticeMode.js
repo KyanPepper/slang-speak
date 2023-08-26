@@ -156,13 +156,13 @@ export default class PracticeMode extends Component {
               Practice Score
             </DialogTitle>
             <DialogContentText variant="h3" fontFamily={"monospace"}>
-              Score: {this.state.questionsCorrect + 1} /{" "}
+              Score: {this.state.questionsCorrect} /{" "}
               {this.state.currentQuestion - 1}
             </DialogContentText>
             <DialogContentText variant="h3" fontFamily={"monospace"}>
               Unsubmitted Score :{" "}
               {Math.round(
-                ((this.state.questionsCorrect + 1) /
+                ((this.state.questionsCorrect) /
                   (this.state.currentQuestion - 1)) *
                   100
               )}
@@ -231,5 +231,6 @@ export default class PracticeMode extends Component {
   }
   handleDialogClose(e) {
     this.setState({ dia: false });
+
   }
 }
