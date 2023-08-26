@@ -20,7 +20,7 @@ export default class PracticeMode extends Component {
       roomData: [],
       currentQuestion: 1,
       questionsCorrect: 0,
-      mixedArr : [],
+      mixedArr: [],
       currentTerm: [],
       usedDefinitions: [],
     };
@@ -61,8 +61,8 @@ export default class PracticeMode extends Component {
         ];
         finalArr = this.shuffleArray(finalArr);
         console.log(finalArr);
-        this.setState({mixedArr:finalArr})
-        console.log(this.state.mixedArr)
+        this.setState({ mixedArr: finalArr });
+        console.log(this.state.mixedArr);
       })
       .catch((error) => {
         console.log("could not retrive question amount");
@@ -98,7 +98,7 @@ export default class PracticeMode extends Component {
             Skip
           </Button>
         </Box>
-        <Typography>{this.state.currentTerm.word}</Typography>
+        <Typography variant="h4" align="center" textTransform={"capitalize"} fontFamily={"monospace"} >{this.state.currentTerm.word}</Typography>
         <Grid container spacing={8} color={"F5F5F5"}>
           {this.state.mixedArr.map((item, index) => (
             <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
@@ -110,13 +110,22 @@ export default class PracticeMode extends Component {
                   flexDirection: "column",
                   justifyContent: "space-between",
                   gap: 4,
+                  height: "80%",
                   color: "black",
                   border: "3px solid #CCCCCC",
                   borderRadius: "8px",
                   backgroundColor: "white",
                 }}
               >
-                <Typography variant="body1" mt={2} >
+                <Typography
+                  variant="body1"
+                  mt={2}
+                  fontFamily={"sans-serif"}
+                  border={"ThreeDLightShadow"}
+                  textTransform={"capitalize"}
+                  fontWeight={'bold'}
+                  textAlign={"center"}
+                >
                   {item.definition}
                 </Typography>
               </Box>
