@@ -178,7 +178,7 @@ export default class PracticeMode extends Component {
   
     if (this.state.currentQuestion >= this.state.roomData.questions) {
       console.log("over");
-      console.log("score" + this.state.questionsCorrect+1)
+      console.log("score" + (this.state.questionsCorrect+1))
       return "";
     }
   
