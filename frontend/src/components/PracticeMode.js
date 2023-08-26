@@ -89,6 +89,7 @@ export default class PracticeMode extends Component {
             size="large"
             endIcon={<NextPlanIcon></NextPlanIcon>}
             style={{ justifyContent: "center" }}
+            onClick={() => this.handleChoice(this.state.currentTerm.word)}
           >
             Skip
           </Button>
@@ -177,7 +178,7 @@ export default class PracticeMode extends Component {
   
     if (this.state.currentQuestion >= this.state.roomData.questions) {
       console.log("over");
-      console.log("score" + this.state.questionsCorrect)
+      console.log("score" + this.state.questionsCorrect+1)
       return "";
     }
   
