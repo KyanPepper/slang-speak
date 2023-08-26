@@ -4,16 +4,14 @@ import { ThemeProvider } from "@emotion/react";
 import Slangtheme from "./WebsiteTheme";
 import NextPlanIcon from "@mui/icons-material/NextPlan";
 import axios from "axios";
-
-const numOfQuestions = 10;
-document.body.style.backgroundColor = "#F5F5F5";
 const tempList = [
   { title: "A", description: "Description 1" },
   { title: "B", description: "Description 2" },
   { title: "C", description: "Description 3" },
   { title: "D", description: "Description 4" },
 ];
-
+const numOfQuestions = 10;
+document.body.style.backgroundColor = "#F5F5F5";
 export default class PracticeMode extends Component {
   constructor(props) {
     super(props);
@@ -26,9 +24,10 @@ export default class PracticeMode extends Component {
       def1: null,
       def2: null,
       def3: null,
-      currentWord: null,
+      currentTerm:[],
       usedDefinitions: [],
     };
+    this.shuffleArray = this.shuffleArray.bind(this)
   }
 
   componentDidMount() {
@@ -37,10 +36,13 @@ export default class PracticeMode extends Component {
       .then((response) => {
         this.setState({ questionList: response.data });
         console.log(this.state.questionList);
+        this.setState({currentTerm : this.state.questionList[this.state.currentQuestion]})
+        console.log(this.state.currentTerm)
       })
       .catch((error) => {
         console.log("could not retrive dictionary words");
       });
+      
     axios
       .get("/api/getRoom")
       .then((response) => {
@@ -81,6 +83,9 @@ export default class PracticeMode extends Component {
             Skip
           </Button>
         </Box>
+        <Typography>
+          {this.state.currentTerm.word}
+        </Typography>
         <Grid container spacing={8} color={"F5F5F5"}>
           {tempList.map((item, index) => (
             <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
@@ -99,7 +104,7 @@ export default class PracticeMode extends Component {
                 }}
               >
                 <Typography variant="body1" mt={2}>
-                  {item.description}
+                  TempWprd
                 </Typography>
               </Box>
             </Grid>
@@ -108,4 +113,12 @@ export default class PracticeMode extends Component {
       </Container>
     );
   }
+   shuffleArray(array){
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  };
 }
