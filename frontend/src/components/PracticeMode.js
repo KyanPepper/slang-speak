@@ -20,15 +20,12 @@ export default class PracticeMode extends Component {
       roomData: [],
       currentQuestion: 1,
       questionsCorrect: 0,
-      correctDef: null,
-      def1: null,
-      def2: null,
-      def3: null,
-      currentTerm:[],
+      mixedArr : [],
+      currentTerm: [],
       usedDefinitions: [],
     };
-    this.shuffleArray = this.shuffleArray.bind(this)
-    this.pickThreeDef = this.pickThreeDef.bind(this)
+    this.shuffleArray = this.shuffleArray.bind(this);
+    this.pickThreeDef = this.pickThreeDef.bind(this);
   }
 
   componentDidMount() {
@@ -37,18 +34,35 @@ export default class PracticeMode extends Component {
       .then((response) => {
         this.setState({ questionList: response.data });
         console.log(this.state.questionList);
-        this.setState({currentTerm : this.state.questionList[this.state.currentQuestion]})
-        console.log(this.state.currentTerm)
+        this.setState({
+          currentTerm: this.state.questionList[this.state.currentQuestion],
+        });
+        console.log(this.state.currentTerm);
       })
       .catch((error) => {
         console.log("could not retrive dictionary words");
       });
-      
+
     axios
       .get("/api/getRoom")
       .then((response) => {
         this.setState({ roomData: response.data });
         console.log(this.state.roomData);
+        let temparr = this.pickThreeDef(
+          this.state.questionList,
+          this.state.currentQuestion,
+          3
+        );
+        let finalArr = [
+          this.state.questionList[temparr[0]],
+          this.state.questionList[temparr[1]],
+          this.state.questionList[temparr[2]],
+          this.state.currentTerm,
+        ];
+        finalArr = this.shuffleArray(finalArr);
+        console.log(finalArr);
+        this.setState({mixedArr:finalArr})
+        console.log(this.state.mixedArr)
       })
       .catch((error) => {
         console.log("could not retrive question amount");
@@ -84,11 +98,9 @@ export default class PracticeMode extends Component {
             Skip
           </Button>
         </Box>
-        <Typography>
-          {this.state.currentTerm.word}
-        </Typography>
+        <Typography>{this.state.currentTerm.word}</Typography>
         <Grid container spacing={8} color={"F5F5F5"}>
-          {tempList.map((item, index) => (
+          {this.state.mixedArr.map((item, index) => (
             <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
               <Box
                 sx={{
@@ -104,8 +116,8 @@ export default class PracticeMode extends Component {
                   backgroundColor: "white",
                 }}
               >
-                <Typography variant="body1" mt={2}>
-                  TempWprd
+                <Typography variant="body1" mt={2} >
+                  {item.definition}
                 </Typography>
               </Box>
             </Grid>
@@ -114,23 +126,25 @@ export default class PracticeMode extends Component {
       </Container>
     );
   }
-   shuffleArray(array){
+  shuffleArray(array) {
     const shuffledArray = [...array];
     for (let i = shuffledArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
     }
     return shuffledArray;
-  };
-  pickThreeDef(array, excludeIndex, count){
+  }
+  pickThreeDef(array, excludeIndex, count) {
     const indices = [];
     while (indices.length < count) {
-      const randomIndex = Math.floor(Math.random() * array.length); 
+      const randomIndex = Math.floor(Math.random() * array.length);
       if (randomIndex !== excludeIndex && !indices.includes(randomIndex)) {
         indices.push(randomIndex);
       }
     }
     return indices;
   }
-  
 }
