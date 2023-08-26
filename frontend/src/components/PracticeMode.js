@@ -14,9 +14,11 @@ import { ThemeProvider } from "@emotion/react";
 import Slangtheme from "./WebsiteTheme";
 import NextPlanIcon from "@mui/icons-material/NextPlan";
 import axios from "axios";
+import { withRouter } from "./withRouter";
+import { Route } from "react-router-dom";
 
 document.body.style.backgroundColor = "#F5F5F5";
-export default class PracticeMode extends Component {
+class PracticeMode extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -157,13 +159,13 @@ export default class PracticeMode extends Component {
             </DialogTitle>
             <DialogContentText variant="h3" fontFamily={"monospace"}>
               Score: {this.state.questionsCorrect} /{" "}
-              {this.state.currentQuestion - 1}
+              {this.state.currentQuestion -1}
             </DialogContentText>
             <DialogContentText variant="h3" fontFamily={"monospace"}>
               Unsubmitted Score :{" "}
               {Math.round(
                 ((this.state.questionsCorrect) /
-                  (this.state.currentQuestion - 1)) *
+                  (this.state.currentQuestion-1 )) *
                   100
               )}
               %
@@ -231,6 +233,8 @@ export default class PracticeMode extends Component {
   }
   handleDialogClose(e) {
     this.setState({ dia: false });
-
+    this.props.navigate("/")
+    window.location.reload();
   }
 }
+export default withRouter(PracticeMode)
