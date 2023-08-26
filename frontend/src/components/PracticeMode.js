@@ -37,56 +37,46 @@ class PracticeMode extends Component {
     this.handleDialogClose = this.handleDialogClose.bind(this);
   }
 
-  componentDidMount() {
-    axios
-      .get("/api/DictionaryWords", {
-        headers: {
-          "Cache-Control": "no-cache",
-          Pragma: "no-cache",
-        },
-      })
-      .then((response) => {
-        this.setState({ questionList: response.data });
-        console.log(this.state.questionList);
-        this.setState({
-          currentTerm: this.state.questionList[this.state.currentQuestion],
-        });
-        console.log(this.state.currentTerm);
-      })
-      .catch((error) => {
-        console.log("could not retrive dictionary words");
+  async componentDidMount() {
+    try {
+      const [dictionaryResponse, roomResponse] = await Promise.all([
+        axios.get("/api/DictionaryWords", {
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+          },
+        }),
+        axios.get("/api/getRoom", {
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+          },
+        }),
+      ]);
+  
+      const questionList = dictionaryResponse.data;
+      const roomData = roomResponse.data;
+  
+      this.setState({
+        questionList,
+        roomData,
+        currentTerm: questionList[this.state.currentQuestion],
       });
-
-    axios
-      .get("/api/getRoom", {
-        headers: {
-          "Cache-Control": "no-cache",
-          Pragma: "no-cache",
-        },
-      })
-      .then((response) => {
-        this.setState({ roomData: response.data });
-        console.log(this.state.roomData);
-        let temparr = this.pickThreeDef(
-          this.state.questionList,
-          this.state.currentQuestion,
-          3
-        );
-        let finalArr = [
-          this.state.questionList[temparr[0]],
-          this.state.questionList[temparr[1]],
-          this.state.questionList[temparr[2]],
-          this.state.currentTerm,
-        ];
-        finalArr = this.shuffleArray(finalArr);
-        console.log(finalArr);
-        this.setState({ mixedArr: finalArr });
-        console.log(this.state.mixedArr);
-      })
-      .catch((error) => {
-        console.log("could not retrive question amount");
-      });
+  
+      const temparr = this.pickThreeDef(questionList, this.state.currentQuestion, 3);
+      const finalArr = [
+        questionList[temparr[0]],
+        questionList[temparr[1]],
+        questionList[temparr[2]],
+        this.state.currentTerm,
+      ];
+  
+      this.setState({ mixedArr: this.shuffleArray(finalArr) });
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
   }
+  
   componentWillUnmount() {
     this.setState({
       questionList: [],
