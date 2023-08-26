@@ -39,7 +39,12 @@ class PracticeMode extends Component {
 
   componentDidMount() {
     axios
-      .get("/api/DictionaryWords")
+      .get("/api/DictionaryWords", {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+        },
+      })
       .then((response) => {
         this.setState({ questionList: response.data });
         console.log(this.state.questionList);
@@ -53,7 +58,12 @@ class PracticeMode extends Component {
       });
 
     axios
-      .get("/api/getRoom")
+      .get("/api/getRoom", {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+        },
+      })
       .then((response) => {
         this.setState({ roomData: response.data });
         console.log(this.state.roomData);
@@ -76,6 +86,18 @@ class PracticeMode extends Component {
       .catch((error) => {
         console.log("could not retrive question amount");
       });
+  }
+  componentWillUnmount() {
+    this.setState({
+      questionList: [],
+      roomData: [],
+      currentQuestion: 1,
+      questionsCorrect: 0,
+      mixedArr: [],
+      currentTerm: [],
+      usedDefinitions: [],
+      dia: false,
+    });
   }
   render() {
     return (
@@ -159,13 +181,13 @@ class PracticeMode extends Component {
             </DialogTitle>
             <DialogContentText variant="h3" fontFamily={"monospace"}>
               Score: {this.state.questionsCorrect} /{" "}
-              {this.state.currentQuestion -1}
+              {this.state.currentQuestion - 1}
             </DialogContentText>
             <DialogContentText variant="h3" fontFamily={"monospace"}>
               Unsubmitted Score :{" "}
               {Math.round(
-                ((this.state.questionsCorrect) /
-                  (this.state.currentQuestion-1 )) *
+                (this.state.questionsCorrect /
+                  (this.state.currentQuestion - 1)) *
                   100
               )}
               %
@@ -233,8 +255,8 @@ class PracticeMode extends Component {
   }
   handleDialogClose(e) {
     this.setState({ dia: false });
-    this.props.navigate("/")
+    this.props.navigate("/");
     window.location.reload();
   }
 }
-export default withRouter(PracticeMode)
+export default withRouter(PracticeMode);
