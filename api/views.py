@@ -77,13 +77,14 @@ class AddScoreView(APIView):
         return Response(score_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Last5ScoresView(APIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def get(self, request):
         user_scores = Score.objects.filter(user=request.user).order_by('-date')[:5]
         score_serializer = ScoreSerializer(user_scores, many=True)
         return Response(score_serializer.data)
 
 class AverageScoreView(APIView):
-
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def get(self, request):
         user_scores = Score.objects.filter(user=request.user)
         average = user_scores.aggregate(Avg('score'))['score__avg']
@@ -96,6 +97,7 @@ class LogoutView(APIView):
         return Response({'message': 'Logged out successfully.'}, status=status.HTTP_200_OK)
 
 class GetUsernameView(APIView):
+    authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def get(self, request):
         username = request.user.username
         return Response({'username': username},status=status.HTTP_200_OK)
