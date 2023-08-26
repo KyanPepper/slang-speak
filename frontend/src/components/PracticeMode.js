@@ -20,6 +20,7 @@ export default class PracticeMode extends Component {
     };
     this.shuffleArray = this.shuffleArray.bind(this);
     this.pickThreeDef = this.pickThreeDef.bind(this);
+    this.handleChoice = this.handleChoice.bind(this);
   }
 
   componentDidMount() {
@@ -92,7 +93,14 @@ export default class PracticeMode extends Component {
             Skip
           </Button>
         </Box>
-        <Typography variant="h4" align="center" textTransform={"capitalize"} fontFamily={"monospace"} >{this.state.currentTerm.word}</Typography>
+        <Typography
+          variant="h4"
+          align="center"
+          textTransform={"capitalize"}
+          fontFamily={"monospace"}
+        >
+          {this.state.currentTerm.word}
+        </Typography>
         <Grid container spacing={8} color={"F5F5F5"}>
           {this.state.mixedArr.map((item, index) => (
             <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
@@ -117,7 +125,7 @@ export default class PracticeMode extends Component {
                   fontFamily={"sans-serif"}
                   border={"ThreeDLightShadow"}
                   textTransform={"capitalize"}
-                  fontWeight={'bold'}
+                  fontWeight={"bold"}
                   textAlign={"center"}
                 >
                   {item.definition}
@@ -149,5 +157,33 @@ export default class PracticeMode extends Component {
       }
     }
     return indices;
+  }
+  handleChoice(e) {
+    if (e === this.state.currentTerm.word) {
+      this.setState({
+        questionsCorrect: questionsCorrect + 1,
+      });
+    }
+    this.setState({
+      currentQuestion: currentQuestion + 1,
+    });
+    if(this.state.currentQuestion > this.state.roomData.questions){
+      console.log("over")
+    }
+    let temparr = this.pickThreeDef(
+      this.state.questionList,
+      this.state.currentQuestion,
+      3
+    );
+    let finalArr = [
+      this.state.questionList[temparr[0]],
+      this.state.questionList[temparr[1]],
+      this.state.questionList[temparr[2]],
+      this.state.currentTerm,
+    ];
+    finalArr = this.shuffleArray(finalArr);
+    console.log(finalArr);
+    this.setState({ mixedArr: finalArr });
+    console.log(this.state.mixedArr);
   }
 }
