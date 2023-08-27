@@ -36,8 +36,8 @@ class DictionaryWordsViewSet(generics.ListAPIView):
     authentication_classes = [CsrfExemptSessionAuthentication, BasicAuthentication]
     def get_queryset(self):
                 queryset = super().get_queryset()
-                shuffled_queryset = list(queryset)  # Convert queryset to a list
-                shuffle(shuffled_queryset)  # Shuffle the list in-place
+                shuffled_queryset = list(queryset) 
+                shuffle(shuffled_queryset)  
                 return shuffled_queryset
 
 class SignupView(APIView):
@@ -98,6 +98,6 @@ class LogoutView(APIView):
 
 class GetUsernameView(APIView):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
-    def get(self, request):
+    def get(self, request): 
         username = request.user.username
         return Response({'username': username},status=status.HTTP_200_OK)
