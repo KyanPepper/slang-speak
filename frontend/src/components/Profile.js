@@ -32,11 +32,22 @@ class Profile extends Component {
     }
     this.HandleLogout = this.HandleLogout.bind(this)
   }
+  componentDidMount(){
+    axios.get("/api/getUser")
+    .then(response => {
+      const username = response.data.username;
+      this.setState({ User: username });
+      console.log(this.state.User)
+    })
+    .catch(error => {
+      console.error("Error", error);
+    });
+  }
   render(){
     return (
       <Container maxWidth="lg">
         <Typography>
-            Signed in
+            Signed in as {this.state.User.username}
         </Typography>
         <Button color="primary" size="large" onClick={this.HandleLogout} >Log Out</Button>
       </Container>
