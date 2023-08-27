@@ -99,5 +99,6 @@ class LogoutView(APIView):
 class GetUsernameView(APIView):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def get(self, request): 
-        username = request.user.username
-        return Response({'username': username},status=status.HTTP_200_OK)
+       user=request.user
+       serializer = UserSerializer(user)   
+       return Response({'username': serializer.data},status=status.HTTP_200_OK)
