@@ -1,5 +1,9 @@
 # SlangSpeak: Slang with Ease
 Programer: Kyan Kotschevar-Smead
+
+
+SlangSpeak Demo 
+https://youtu.be/T07W9B8Sh3o
 ## About
 
 SlangSpeak is a language learning platform, similar to Duolingo, but focused on teaching slang words.
