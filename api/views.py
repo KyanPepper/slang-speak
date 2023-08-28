@@ -69,7 +69,7 @@ class LoginView(APIView):
 class AddScoreView(APIView):
     authentication_classes = [CsrfExemptSessionAuthentication, BasicAuthentication]
     def post(self, request):
-        score_data = {'user': request.user.id, 'score': request.data['score']}
+        score_data = {'user': request.user.id, 'score': request.data.get('score')}
         score_serializer = ScoreSerializer(data=score_data)
         if score_serializer.is_valid():
             score_serializer.save(user=request.user)

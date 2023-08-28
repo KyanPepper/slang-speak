@@ -42,41 +42,45 @@ class ExamMode extends Component {
       const [dictionaryResponse, roomResponse] = await Promise.all([
         axios.get("/api/DictionaryWords", {
           headers: {
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
+            "Cache-Control": "no-cache",
+            Pragma: "no-cache",
           },
         }),
         axios.get("/api/getRoom", {
           headers: {
-            'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache',
+            "Cache-Control": "no-cache",
+            Pragma: "no-cache",
           },
         }),
       ]);
-  
+
       const questionList = dictionaryResponse.data;
       const roomData = roomResponse.data;
-  
+
       this.setState({
         questionList,
         roomData,
         currentTerm: questionList[this.state.currentQuestion],
       });
-  
-      const temparr = this.pickThreeDef(questionList, this.state.currentQuestion, 3);
+
+      const temparr = this.pickThreeDef(
+        questionList,
+        this.state.currentQuestion,
+        3
+      );
       const finalArr = [
         questionList[temparr[0]],
         questionList[temparr[1]],
         questionList[temparr[2]],
         this.state.currentTerm,
       ];
-  
+
       this.setState({ mixedArr: this.shuffleArray(finalArr) });
     } catch (error) {
       console.error("An error occurred:", error);
     }
   }
-  
+
   componentWillUnmount() {
     this.setState({
       questionList: [],
@@ -234,17 +238,20 @@ class ExamMode extends Component {
   }
   handleDialogClose(e) {
     this.setState({ dia: false });
-    const score = Math.round((this.state.questionsCorrect / (this.state.currentQuestion - 1))) * 100;
-    const scoreData = { score: score };
-    axios.post("/api/add-score", scoreData)
-    .then(response => {
-      console.log("POST request successful", response.data);
-    })
-    .catch(error => {
-      console.error("POST request error", error);
-    });
- //   this.props.navigate("/");
-   // window.location.reload();
+    let ss = Math.round(
+      (this.state.questionsCorrect / (this.state.currentQuestion - 1)) * 100
+    );
+    const scoreData = { score: ss };
+    axios
+      .post("/api/add-score", scoreData)
+      .then((response) => {
+        console.log("POST request successful", response.data);
+      })
+      .catch((error) => {
+        console.error("POST request error", error);
+      });
+    //   this.props.navigate("/");
+    // window.location.reload();
   }
 }
 export default withRouter(ExamMode);
