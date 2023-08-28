@@ -29,7 +29,8 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        User : ""
+        User : "",
+        AvgScore : 0
     }
     this.HandleLogout = this.HandleLogout.bind(this)
   }
@@ -43,16 +44,29 @@ class Profile extends Component {
     .catch(error => {
       console.error("Error", error);
     });
+    axios.get("/api/average-score")
+    .then(response => {
+      const score = response.data.average_score;
+      this.setState({ AvgScore: score });
+      console.log(score)
+    })
+    .catch(error => {
+      console.error("Error", error);
+    });
   }
   render(){
     return (
       <Container maxWidth="lg">
-        <Typography align="left" variant="h2" fontFamily={"monospace"}>
+        <Typography align="center" variant="h2" fontFamily={"monospace"}>
             Signed in as {this.state.User.username}
         </Typography>
         <Box alignItems={"center"} alignContent={"center"} textAlign={"center"}>
           <Button color="error" size="large" variant="contained"  onClick={this.HandleLogout} >Log Out</Button>
         </Box>
+        <Typography align="left" variant="h4" fontFamily={"monospace"}>
+            Average Score: {this.state.AvgScore}%
+        </Typography>
+        
       </Container>
     )
   }
