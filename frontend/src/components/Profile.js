@@ -22,6 +22,7 @@ import {
   Container,
   AppBar,
   Toolbar,
+  Stack
 } from "@mui/material";
 import axios from "axios";
 import { alignProperty } from "@mui/material/styles/cssUtils";
@@ -30,7 +31,8 @@ class Profile extends Component {
     super(props);
     this.state = {
         User : "",
-        AvgScore : 0
+        AvgScore : 0,
+        lastFive : []
     }
     this.HandleLogout = this.HandleLogout.bind(this)
   }
@@ -53,6 +55,15 @@ class Profile extends Component {
     .catch(error => {
       console.error("Error", error);
     });
+    axios.get("/api/last-5-scores")
+    .then(response => {
+      const last = response.data;
+      this.setState({ lastFive: last });
+      console.log(last)
+    })
+    .catch(error => {
+      console.error("Error", error);
+    });
   }
   render(){
     return (
@@ -66,7 +77,9 @@ class Profile extends Component {
         <Typography align="left" variant="h4" fontFamily={"monospace"}>
             Average Score: {this.state.AvgScore}%
         </Typography>
-        
+        <Stack>
+
+        </Stack>
       </Container>
     )
   }
