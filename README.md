@@ -38,5 +38,5 @@ Create a Superuser, go to django admin panel and add atleast 30 DictionaryWords
 
 **React**
 Navigate to the frontend directory.
-Install Node.js dependencies using npm install
-Install Node-Modules
+Install Node.js dependencies using npm install.
+Install Node-Modules.
