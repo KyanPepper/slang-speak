@@ -24,6 +24,7 @@ import {
   Toolbar,
 } from "@mui/material";
 import axios from "axios";
+import { alignProperty } from "@mui/material/styles/cssUtils";
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -46,10 +47,12 @@ class Profile extends Component {
   render(){
     return (
       <Container maxWidth="lg">
-        <Typography>
+        <Typography align="left" variant="h2" fontFamily={"monospace"}>
             Signed in as {this.state.User.username}
         </Typography>
-        <Button color="primary" size="large" onClick={this.HandleLogout} >Log Out</Button>
+        <Box alignItems={"center"} alignContent={"center"} textAlign={"center"}>
+          <Button color="error" size="large" variant="contained"  onClick={this.HandleLogout} >Log Out</Button>
+        </Box>
       </Container>
     )
   }
