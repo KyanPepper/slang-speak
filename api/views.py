@@ -69,11 +69,12 @@ class LoginView(APIView):
 class AddScoreView(APIView):
     authentication_classes = [CsrfExemptSessionAuthentication, BasicAuthentication]
     def post(self, request):
-        score_data = {'user': request.user, 'score': request.data.get('score')}
+        score_data = {'user': request.user.id, 'score': request.data['score']}
         score_serializer = ScoreSerializer(data=score_data)
         if score_serializer.is_valid():
             score_serializer.save(user=request.user)
             return Response(score_serializer.data, status=status.HTTP_201_CREATED)
+        print(score_serializer.errors)
         return Response(score_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Last5ScoresView(APIView):

@@ -234,8 +234,17 @@ class ExamMode extends Component {
   }
   handleDialogClose(e) {
     this.setState({ dia: false });
-    this.props.navigate("/");
-    window.location.reload();
+    const score = Math.round((this.state.questionsCorrect / (this.state.currentQuestion - 1))) * 100;
+    const scoreData = { score: score };
+    axios.post("/api/add-score", scoreData)
+    .then(response => {
+      console.log("POST request successful", response.data);
+    })
+    .catch(error => {
+      console.error("POST request error", error);
+    });
+ //   this.props.navigate("/");
+   // window.location.reload();
   }
 }
 export default withRouter(ExamMode);
