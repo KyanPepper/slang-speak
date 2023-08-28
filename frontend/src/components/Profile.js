@@ -87,13 +87,13 @@ class Profile extends Component {
         <Typography align="left" variant="h4" fontFamily={"monospace"}>
           Average Score: {this.state.AvgScore}%
         </Typography>
-        <Stack divider>
+        <Stack>
           <Typography align="left" variant="h4" fontFamily="monospace">
             Last 5 Scores:
           </Typography>
           {this.state.lastFive.map((score, index) => (
             <Typography key={index} align="left" variant="h5">
-              Score {index + 1}: {score.score}%   {score.date}
+              Score {index + 1}: {score.score}% {score.date}
             </Typography>
           ))}
         </Stack>
