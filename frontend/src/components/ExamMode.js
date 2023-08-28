@@ -250,8 +250,8 @@ class ExamMode extends Component {
       .catch((error) => {
         console.error("POST request error", error);
       });
-    //   this.props.navigate("/");
-    // window.location.reload();
+      this.props.navigate("/");
+      window.location.reload();
   }
 }
 export default withRouter(ExamMode);
