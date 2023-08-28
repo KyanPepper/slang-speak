@@ -80,8 +80,12 @@ class AddScoreView(APIView):
 class Last5ScoresView(APIView):
     authentication_classes = (CsrfExemptSessionAuthentication, BasicAuthentication)
     def get(self, request):
-        user_scores = Score.objects.filter(user=request.user).order_by('-date')[:5]
+        n = int(request.query_params.get('n', 5))
+        if n > 0:
+            n = 5
+        user_scores = Score.objects.filter(user=request.user).order_by('-date')[:n]
         score_serializer = ScoreSerializer(user_scores, many=True)
+        print(score_serializer.data)
         return Response(score_serializer.data)
 
 class AverageScoreView(APIView):
